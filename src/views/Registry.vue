@@ -109,11 +109,9 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 .main {
-  text-align: center; /*让div内部文字居中*/
+  text-align: center;
   border-radius: 20px;
   width: 300px;
   height: 350px;
