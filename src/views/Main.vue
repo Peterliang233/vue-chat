@@ -56,14 +56,34 @@ export default {
   data() {
     return {
       textarea: '',
+      ws: '',
       messages: []
     }
   },
   methods: {
     send() {
-      this.messages.push({name: 'xiaoliang', content: this.textarea});
+       this.messages.push({name: 'xiaoliang', content: this.textarea});
+      this.ws.send(this.textarea);
       this.textarea = '';
     }
+  },
+  mounted() {
+    this.ws = new WebSocket('ws://localhost:9090/ws','echo-protocol')
+    this.ws.onopen=()=> {
+      //this.ws.send('Hello,The connection are successful')
+      console.log("Connection Open...")
+    }
+    this.ws.onmessage=(evt)=> {
+      console.log(evt)
+      // this.messages.push(evt.data)
+      console.info(evt.data)
+    }
+    this.ws.onclose=()=> {
+      console.log("Connection Close")
+    }
+  },
+  beforeDestroy() {
+    this.ws.close()
   }
 }
 </script>
@@ -71,13 +91,13 @@ export default {
 <style scoped>
 #div1 {
   width: 50%;
-  height: 300px;
+  height: 100%;
   float: left;
 }
 
 #div2 {
   width: 50%;
-  height: 300px;
+  height: 100%;
   float: left;
 }
 
