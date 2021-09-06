@@ -5,13 +5,13 @@
         <div v-if="index%2===0" class="item left">
           <div>
             <el-link style="font-size: 50px" icon="el-icon-user-solid"/>
-            <span>{{ message.name }}</span>
+            <span style="color: #409EFF">{{ message.name }}</span>
           </div>
           <span class="message">{{ message.content }}</span>
         </div>
         <div v-if="index%2===1" class="item right">
           <div>
-            <span>{{ message.name }}</span>
+            <span style="color: #42b983">{{ message.name }}</span>
             <el-link style="font-size: 50px" icon="el-icon-user"/>
           </div>
           <span class="message">{{ message.content }}</span>
@@ -62,7 +62,7 @@ export default {
   },
   methods: {
     send() {
-       this.messages.push({name: 'xiaoliang', content: this.textarea});
+      this.messages.push({name: localStorage.getItem('username'), content: this.textarea});
       this.ws.send(this.textarea);
       this.textarea = '';
     }

@@ -82,6 +82,7 @@ export default {
         if (res.data.status === 200) {
           this.open2()
           localStorage.setItem('token', 'Bearer'+res.data.data.token)
+          localStorage.setItem('username', this.ruleForm.name)
           this.$router.replace({
             path: '/main'
           });

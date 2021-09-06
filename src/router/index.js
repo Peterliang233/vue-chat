@@ -4,6 +4,8 @@ import Registry from '../views/Registry.vue'
 import Login from '../views/Login.vue'
 import NotFound from "../views/NotFound";
 import Main from "../views/Main";
+import chat from "../views/chat";
+import test from "../views/test";
 
 Vue.use(VueRouter)
 
@@ -27,6 +29,16 @@ const routes = [
     path: '/main',
     name: 'Main',
     component: Main,
+  },
+  {
+    path: '/chat',
+    name: 'Chat',
+    component: chat,
+  },
+  {
+    path: '/test',
+    name: 'Test',
+    component: test
   }
 ]
 
