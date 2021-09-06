@@ -93,7 +93,7 @@ export default {
             that.username +
             "&room_id=" +
             that.roomKey);
-        that.appendLog("admin", "Socket connection successfully")
+        that.appendLog("admin", "socket通信已经开启")
         that.ws.onclose = function (evt) {
           console.info("Socket Connection Close");
           that.appendLog("admin", "Socket Connection Close")
@@ -108,7 +108,7 @@ export default {
         };
       } else {
         console.info("Don't support");
-        that.appendLog("admin", "Connection Error")
+        that.appendLog("admin", "您的浏览器似乎不支持socket通信")
       }
     }
   },
