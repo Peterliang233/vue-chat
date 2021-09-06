@@ -3,9 +3,7 @@ import VueRouter from 'vue-router'
 import Registry from '../views/Registry.vue'
 import Login from '../views/Login.vue'
 import NotFound from "../views/NotFound";
-import Main from "../views/Main";
-import chat from "../views/chat";
-import test from "../views/test";
+import Chat from "../views/Chat";
 
 Vue.use(VueRouter)
 
@@ -26,19 +24,9 @@ const routes = [
     component: NotFound
   },
   {
-    path: '/main',
-    name: 'Main',
-    component: Main,
-  },
-  {
     path: '/chat',
-    name: 'Chat',
-    component: chat,
-  },
-  {
-    path: '/test',
     name: 'Test',
-    component: test
+    component: Chat,
   }
 ]
 

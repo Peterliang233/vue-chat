@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div v-if="enter === 'Yes'">
+    <el-button class="dialog" type="text" @click="open">点击进入聊天室</el-button>
+  </div>
+  <div v-else style="font-weight: bolder">
     <div id="div1" ref="box">
       <div v-for="message in messages">
         <div style="color: #42b983;" v-if="message.name === username">
@@ -28,18 +31,46 @@ export default {
   name: "Test",
   data() {
     return {
+      enter: localStorage.getItem('enter'),
       msg: '',
       ws: '',
       messages: [],
+      roomKey: '',
       username: localStorage.getItem('username'),
     }
   },
   methods: {
+    open() {
+      this.$prompt('请输入房间密码', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+      }).then(({value}) => {
+        if(!value) {
+          this.$message({
+            type: 'error',
+            message: '房间号不能为空'
+          });
+        }else{
+          this.$message({
+            type: 'success',
+            message: '您成功进入该房间'
+          });
+          this.roomKey = value;
+          localStorage.setItem('enter','No');
+          window.location.reload();
+        }
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消输入'
+        });
+      });
+    },
     send() {
       if (!this.ws) {
         return false;
       }
-      console.info('sdf'+this.msg)
+      console.info('debug:'+this.msg)
       this.ws.send(this.msg);
       this.msg = "";
       return false;
@@ -60,7 +91,8 @@ export default {
       if (window["WebSocket"]) {
         that.ws = new WebSocket("ws://" + "localhost:9090" + "/ws?user_name=" +
             that.username +
-            "&room_id=aaaa");
+            "&room_id=" +
+            that.roomKey);
         that.appendLog("admin", "Socket connection successfully")
         that.ws.onclose = function (evt) {
           console.info("Socket Connection Close");
@@ -79,6 +111,9 @@ export default {
         that.appendLog("admin", "Connection Error")
       }
     }
+  },
+  watch: {
+
   }
 }
 </script>
@@ -92,5 +127,18 @@ export default {
   position:fixed;
   bottom:0;
   width:100%;
+}
+
+.dialog{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-weight: bolder;
+  font-size: x-large;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 </style>

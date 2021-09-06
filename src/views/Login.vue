@@ -83,8 +83,9 @@ export default {
           this.open2()
           localStorage.setItem('token', 'Bearer'+res.data.data.token)
           localStorage.setItem('username', this.ruleForm.name)
+          localStorage.setItem('enter', 'Yes');
           this.$router.replace({
-            path: '/main'
+            path: '/chat'
           });
         }
       }).catch(error => {
