@@ -34,14 +34,14 @@ export default {
       enter: localStorage.getItem('enter'),
       msg: '',
       ws: '',
+      roomID: localStorage.getItem('roomID'),
       messages: [],
-      roomKey: '',
       username: localStorage.getItem('username'),
     }
   },
   methods: {
     open() {
-      this.$prompt('请输入房间密码', '提示', {
+      this.$prompt('请输入房间号', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
       }).then(({value}) => {
@@ -50,13 +50,18 @@ export default {
             type: 'error',
             message: '房间号不能为空'
           });
-        }else{
+        }else if(isNaN(value)){
+          this.$message({
+            type: 'error',
+            message: '房间号只能是一串数字'
+          });
+        } else{
           this.$message({
             type: 'success',
             message: '您成功进入该房间'
           });
-          this.roomKey = value;
           localStorage.setItem('enter','No');
+          localStorage.setItem('roomID', value);
           window.location.reload();
         }
       }).catch(() => {
@@ -89,10 +94,11 @@ export default {
     window.onload = function () {
 
       if (window["WebSocket"]) {
+        console.info("roomkey:" + that.roomKey)
         that.ws = new WebSocket("ws://" + "localhost:9090" + "/ws?user_name=" +
             that.username +
             "&room_id=" +
-            that.roomKey);
+            that.roomID);
         that.appendLog("admin", "socket通信已经开启")
         that.ws.onclose = function (evt) {
           console.info("Socket Connection Close");
