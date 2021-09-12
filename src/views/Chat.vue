@@ -14,6 +14,20 @@
       </div>
     </div>
     <div id="div2">
+      <el-upload
+          class="upload-demo"
+          action="http://localhost:9090/upload"
+          :on-preview="handlePreview"
+          :on-remove="handleRemove"
+          :before-remove="beforeRemove"
+          :on-success="onSuccess"
+          :on-error="OnError"
+          multiple
+          :limit="3"
+          :file-list="fileList">
+        <el-button size="small" type="primary">上传文件</el-button>
+      </el-upload>
+
       <el-input
           style="float: left;height: 50%;font-size:x-large"
           type="textarea"
@@ -31,6 +45,7 @@ export default {
   name: "Test",
   data() {
     return {
+      fileList: [],
       enter: localStorage.getItem('enter'),
       msg: '',
       ws: '',
@@ -40,6 +55,28 @@ export default {
     }
   },
   methods: {
+
+
+    // 文件上传部分
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${ file.name }？`);
+    },
+    onSuccess(response, file, fileList) {
+      this.$message.success("文件上传成功")
+    },
+    OnError(err, file, fileList) {
+      this.$message.error(err)
+    },
+
+
+
+
     open() {
       this.$prompt('请输入房间号', '提示', {
         confirmButtonText: '确定',
@@ -123,6 +160,8 @@ export default {
   }
 }
 </script>
+
+
 
 <style scoped>
 #div1{
